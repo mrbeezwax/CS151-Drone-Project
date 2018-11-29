@@ -26,15 +26,33 @@ public class PlaneShape implements MoveableShape {
 		this.width = width;
 	}
 
-	public void up() {
-		y = y + -15;
+	/*
+	The x is flipped here because the scale method used in drawing the image flips the image and therefore, flips the x-axis
+	 */
+	@Override
+	public void left() {
+		x = x + 15;
 	}
 
-	public void down() {
-		y = y + 15;
+    /*
+    The x is flipped here as well
+     */
+    @Override
+	public void right() {
+		x = x - 15;
 	}
 
-	public void draw(Graphics2D g2) {
+    @Override
+    public void down() {
+        y = y + 15;
+    }
+
+    @Override
+    public void up() {
+        y = y - 15;
+    }
+
+    public void draw(Graphics2D g2) {
 
 		Rectangle2D.Double body = new Rectangle2D.Double(x, y + width / 6, width - 1, width / 6);
 
@@ -59,16 +77,17 @@ public class PlaneShape implements MoveableShape {
 
 		Line2D.Double rightWing4 = new Line2D.Double(x + 35, y + 40, x + 65, y + width / 3 - 10);
 
-		g2.draw(body);
-		g2.draw(headCurve2);
-		g2.draw(headCurve);
-		g2.draw(tailCurve);
-		g2.draw(tailLine2);
-		g2.draw(tailLine3);
-		g2.draw(rightWing1);
-		g2.draw(rightWing2);
-		g2.draw(rightWing3);
-		g2.draw(rightWing4);
+        g2.scale(-1,1);
+        g2.draw(body);
+        g2.draw(headCurve2);
+        g2.draw(headCurve);
+        g2.draw(tailCurve);
+        g2.draw(tailLine2);
+        g2.draw(tailLine3);
+        g2.draw(rightWing1);
+        g2.draw(rightWing2);
+        g2.draw(rightWing3);
+        g2.draw(rightWing4);
 
 	}
 
