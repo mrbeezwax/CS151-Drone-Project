@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 
-public class DroneGame {
+public class DroneGame extends JPanel{
     private Airplane[] airplanes;
     private int gameTime;
     private Timer timer;
@@ -15,6 +15,8 @@ public class DroneGame {
     private Drone drone;
     private JFrame gameWindow;
     private JLabel timeLabel;
+    int droneX = 266;
+    int droneY = 90;
 
     /*
     DroneGame
@@ -43,13 +45,18 @@ public class DroneGame {
         // Initialize scoreboard, Drone, Airplanes, MovingPlain, Collisions...
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
+        
         try {
             BufferedImage img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
-            gameWindow.setContentPane(new JLabel(new ImageIcon(img)));
+            gameWindow.add(new JLabel(new ImageIcon(img)));
+            BufferedImage img2 = ImageIO.read(getClass().getResource("/resources/images/dronepic.png"));
+            Graphics g = img.getGraphics();
+            g.drawImage(img2, droneX, droneY, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
         startStopwatch();
+        
         // Collision Event
 
         gameWindow.setVisible(true);
