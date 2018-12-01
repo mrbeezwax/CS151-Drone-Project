@@ -1,4 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -8,6 +13,8 @@ public class DroneGame {
     private Timer timer;
     private Scoreboard scoreboard;
     private Drone drone;
+    private JFrame gameWindow;
+    private JLabel timeLabel;
 
     /*
     DroneGame
@@ -17,9 +24,11 @@ public class DroneGame {
      */
     public DroneGame() {
         timer = new Timer();
-        gameTime = 90000;
+        gameTime = 90;
         scoreboard = new Scoreboard();
         drone = new Drone();
+        gameWindow = new JFrame("Drone Project");
+        timeLabel = new JLabel("Time: " + convertTime(gameTime), SwingConstants.CENTER);
     }
 
     /*
@@ -29,24 +38,29 @@ public class DroneGame {
      */
     public void startGame() {
         // Creates game window
-        // Displays Play Button and Configurations Button
-        JFrame gameWindow = new JFrame("Drone Project");
-        gameWindow.setSize(800, 400);
+        gameWindow.setSize(852, 480);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel gameTimePanel = new JPanel();
-        gameTimePanel.add(new JLabel("Time: " + convertTime(gameTime)));
         // Initialize scoreboard, Drone, Airplanes, MovingPlain, Collisions...
+        gameWindow.add(scoreboard, BorderLayout.SOUTH);
+        gameWindow.add(timeLabel, BorderLayout.NORTH);
+        try {
+            BufferedImage img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
+            gameWindow.setContentPane(new JLabel(new ImageIcon(img)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         startStopwatch();
         // Collision Event
+
+        gameWindow.setVisible(true);
     }
 
     /*
     Converts gametime from ms to minutes and seconds
      */
     private String convertTime(int time) {
-        int convertedToSeconds = time / 1000;
-        int minutes = convertedToSeconds / 60;
-        int seconds = convertedToSeconds % 60;
+        int minutes = time / 60;
+        int seconds = time % 60;
         return minutes + ":" + seconds;
     }
 
@@ -55,9 +69,13 @@ public class DroneGame {
      */
     private void restartGame() {
         timer.cancel();
-        gameTime = 90000;
+        gameTime = 90;
         scoreboard = new Scoreboard();
         drone = new Drone();
+    }
+
+    private void endGame() {
+        timer.cancel();
     }
 
     /*
@@ -80,6 +98,9 @@ public class DroneGame {
             @Override
             public void run() {
                 gameTime--;
+                System.out.println(gameTime);
+                if (gameTime < 1) endGame();
+                else timeLabel.setText("Time: " + convertTime(gameTime));
             }
         }, 0, 1000);
     }

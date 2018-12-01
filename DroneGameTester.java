@@ -10,14 +10,14 @@ public class DroneGameTester {
     public static void main(String[] args) {
         DroneGame game = new DroneGame();
         JFrame menuWindow = new JFrame();
-        menuWindow.setSize(300, 300);
+        menuWindow.setSize(500, 300);
         menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuWindow.setLayout(new BorderLayout());
         JLabel title = new JLabel("Drone Project", SwingConstants.CENTER);
         JPanel buttonPanel = new JPanel();
         JButton playButton = new JButton("Play Game");
         playButton.addActionListener(event -> {
-            menuWindow.dispatchEvent(new WindowEvent(menuWindow, WindowEvent.WINDOW_CLOSING));
+            menuWindow.setVisible(false);
             game.startGame();
         });
         JButton configurationButton = new JButton("Configure");
