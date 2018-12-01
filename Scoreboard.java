@@ -21,4 +21,12 @@ public class Scoreboard extends JLabel {
         score += points;
         setText(score+"");
     }
+
+    public void setTotalScore(int score) {
+        totalScore = score;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
 }
