@@ -16,6 +16,8 @@ public class DroneGame extends JPanel {
     private JLabel timeLabel;
     int droneX = 266;
     int droneY = 90;
+    BufferedImage img;
+    BufferedImage img2;
 
     /*
     DroneGame
@@ -39,11 +41,9 @@ public class DroneGame extends JPanel {
         gameWindow.add(timeLabel, BorderLayout.NORTH);
         
         try {
-            BufferedImage img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
+            img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
             gameWindow.add(new JLabel(new ImageIcon(img)));
-            BufferedImage img2 = ImageIO.read(getClass().getResource("/resources/images/dronepic.png"));
-            Graphics g = img.getGraphics();
-            g.drawImage(img2, droneX, droneY, null);
+            img2 = ImageIO.read(getClass().getResource("/resources/images/dronepic.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,6 +142,13 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                    
+                Graphics g = img.getGraphics();
+                g.drawImage(img2, droneX, droneY, null);
+                repaint();
+                droneX += 10;
+                System.out.println(droneX); 
+                
                 gameTime--;
                 if (gameTime < 1) endGame();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
