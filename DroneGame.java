@@ -94,7 +94,35 @@ public class DroneGame extends JPanel{
         JFrame gameWindow = new JFrame("Configurations");
         gameWindow.setSize(300, 300);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Add Settings here
+        gameWindow.setVisible(true);
+        
+        BoxLayout config = new BoxLayout(gameWindow.getContentPane(), BoxLayout.Y_AXIS);
+        gameWindow.setLayout(config);
+        
+        JPanel difficultyPanel = new JPanel();
+        JButton easyButton = new JButton("Easy Mode");
+        JButton hardButton = new JButton("Hard Mode");
+        difficultyPanel.add(easyButton);
+        difficultyPanel.add(hardButton);
+        
+        JPanel exitPanel = new JPanel();
+        JButton exitButton = new JButton("Exit");
+        exitPanel.add(exitButton);
+        
+        gameWindow.add(difficultyPanel);
+        gameWindow.add(exitPanel);
+        
+        BoxLayout a = new BoxLayout(gameWindow.getContentPane(), BoxLayout.X_AXIS);
+        easyButton.addActionListener(event -> {
+            System.out.println("Set to easy mode");
+        });
+        hardButton.addActionListener(event -> {
+            System.out.println("Set to hard mode");
+        });
+        exitButton.addActionListener(event -> {
+            gameWindow.setVisible(false);
+            gameWindow.dispose();
+        });
     }
 
     /*
