@@ -2,12 +2,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 
-public class DroneGame extends JPanel{
+public class DroneGame extends JPanel {
     private Airplane[] airplanes;
     private int gameTime;
     private Timer timer;
@@ -31,18 +30,11 @@ public class DroneGame extends JPanel{
         drone = new Drone();
         gameWindow = new JFrame("Drone Project");
         timeLabel = new JLabel("Time: " + convertTime(gameTime), SwingConstants.CENTER);
-    }
-
-    /*
-        Starts the game
-        Creates the game window with drone at starting position, a game time, and score
-        Stopwatch starts
-     */
-    public void startGame() {
         // Creates game window
-        gameWindow.setSize(852, 480);
+        gameWindow.setSize(852, 480); // Set to match background resolution. Need to find a way to scale img with frame
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Initialize scoreboard, Drone, Airplanes, MovingPlain, Collisions...
+        scoreboard.setTotalScore(5);
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
         
@@ -55,11 +47,19 @@ public class DroneGame extends JPanel{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /*
+        Starts the game - Spawns airplanes, starts stopwatch
+     */
+    public void startGame() {
+        gameWindow.setVisible(true);
+
+        spawnAirplanes();
         startStopwatch();
         
         // Collision Event
 
-        gameWindow.setVisible(true);
     }
 
     /*
@@ -72,6 +72,13 @@ public class DroneGame extends JPanel{
     }
 
     /*
+    Runs when timer ends
+     */
+    private void nextLevel() {
+        scoreboard.setTotalScore(scoreboard.getTotalScore() + 2);
+    }
+
+    /*
     Restarts the game by resetting all variables
      */
     private void restartGame() {
@@ -81,6 +88,9 @@ public class DroneGame extends JPanel{
         drone = new Drone();
     }
 
+    /*
+    Runs when player reaches the end of the game
+     */
     private void endGame() {
         timer.cancel();
     }
@@ -133,10 +143,19 @@ public class DroneGame extends JPanel{
             @Override
             public void run() {
                 gameTime--;
-                System.out.println(gameTime);
                 if (gameTime < 1) endGame();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
             }
         }, 0, 1000);
+    }
+
+    /*
+    Creates array of airplane with size of totalScore (number of airplanes)
+     */
+    private void spawnAirplanes() {
+        airplanes = new Airplane[scoreboard.getTotalScore()];
+        for (int i = 0; i < scoreboard.getTotalScore(); i++) {
+            airplanes[i] = new Airplane();
+        }
     }
 }
