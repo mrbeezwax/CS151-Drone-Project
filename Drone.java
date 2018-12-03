@@ -7,15 +7,14 @@ import java.awt.event.KeyEvent;
 
 public class Drone extends JLabel {
     private int x = 0;
-    private int y = 0;
+    private int y = 150;
     //int dx = 0;
     //int dy = 0;
-    BufferedImage drone_img;
+    private BufferedImage drone_img;
 
     public Drone() {
         try {
-            drone_img = ImageIO.read(getClass().getResource("resources/images/dronepic.png"));
-            ImageIcon icon = new ImageIcon(drone_img);
+            drone_img = ImageIO.read(getClass().getResource("resources/images/resized_drone.png"));
         } catch (IOException e) {
             System.out.println("Error reading drone image");
         }
@@ -24,7 +23,7 @@ public class Drone extends JLabel {
     public void move(){
         //x += dx;
         //y += dy;
-        x += 10;
+        x += 1;
         repaint();
     }
 
@@ -33,9 +32,7 @@ public class Drone extends JLabel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(drone_img, x, y, null);
-        
     }
-    
     
     /*
     public void keyPressed(KeyEvent e) {

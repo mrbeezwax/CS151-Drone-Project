@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class DroneGame extends JPanel {
     private Drone drone;
     private JFrame gameWindow;
     private JLabel timeLabel;
-    BufferedImage background_img;
+    private int scalar;
 
     /*
     DroneGame
@@ -25,17 +26,19 @@ public class DroneGame extends JPanel {
     public DroneGame() {
         timer = new Timer();
         gameTime = 90;
+        scalar = 1;
         scoreboard = new Scoreboard();
         gameWindow = new JFrame("Drone Project");
         timeLabel = new JLabel("Time: " + convertTime(gameTime), SwingConstants.CENTER);
         // Creates game window
-        gameWindow.setSize(852, 480); // Set to match background resolution. Need to find a way to scale background_img with frame
+        gameWindow.setSize(852, 500); // Set to match background resolution. Need to find a way to scale background_img with frame
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setLayout(new BorderLayout());
+        gameWindow.setResizable(false);
 
         // Initialize background image
         try {
-            background_img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
+            BufferedImage background_img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
             gameWindow.setContentPane(new BackgroundImage(background_img));
         } catch (IOException e) {
             System.out.println("Error reading background image");
@@ -44,6 +47,8 @@ public class DroneGame extends JPanel {
         // Initialize scoreboard, Drone, Airplanes, Collisions...
         drone = new Drone();
         scoreboard.setTotalScore(5);
+        airplanes = new Airplane[5];
+        for (int i = 0; i < airplanes.length; i++) airplanes[i] = new Airplane();
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
         gameWindow.add(drone);
@@ -57,6 +62,7 @@ public class DroneGame extends JPanel {
 
         spawnAirplanes();
         startStopwatch();
+        startGameTimer();
         
         // Collision Event
 
@@ -72,14 +78,14 @@ public class DroneGame extends JPanel {
     }
 
     /*
-    Runs when timer ends
+    Runs when timer ends and initiates the next round with more, slightly faster airplanes. Scales with difficulty
      */
     private void nextLevel() {
         scoreboard.setTotalScore(scoreboard.getTotalScore() + 2);
     }
 
     /*
-    Restarts the game by resetting all variables
+    Restarts the game to level 1 by resetting all variables
      */
     private void restartGame() {
         timer.cancel();
@@ -89,16 +95,42 @@ public class DroneGame extends JPanel {
     }
 
     /*
-    Runs when player reaches the end of the game
+     Restarts the current round
      */
-    private void endGame() {
+    private void restartRound() {
+        //TBD
+    }
+
+    /*
+    Listens for key press and opens a pause panel in game window
+    Three buttons: Resume, Restart Round, and Quit
+     */
+    private void openPauseMenu() {
+        //TBD
+    }
+
+    /*
+    Runs when player reaches the end of the round
+    Displays score and a button to initiate the next level or to quit
+    If next level button clicked, run nextLevel()
+    If quit button clicked, run quitGame()
+     */
+    private void roundEnd() {
         timer.cancel();
+    }
+
+    /*
+    Runs when user clicks Quit in the pause menu or next round menu
+    Brings user back to the menu window
+    Should run the restartGame method
+     */
+    private void quitGame() {
+        // TBD
     }
 
     /*
     User can set configurations including:
         - Difficulty
-        - Background
      */
     public void setConfigurations() {
         JFrame gameWindow = new JFrame("Configurations");
@@ -125,9 +157,11 @@ public class DroneGame extends JPanel {
         BoxLayout a = new BoxLayout(gameWindow.getContentPane(), BoxLayout.X_AXIS);
         easyButton.addActionListener(event -> {
             System.out.println("Set to easy mode");
+            scalar = 1;
         });
         hardButton.addActionListener(event -> {
             System.out.println("Set to hard mode");
+            scalar = 5;
         });
         exitButton.addActionListener(event -> {
             gameWindow.setVisible(false);
@@ -142,27 +176,31 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                    
-//                Graphics g = background_img.getGraphics();
-//                g.drawImage(drone_img, droneX, droneY, null);
-//                repaint();
-//                droneX += 10;
-//                System.out.println("Drone X: " + droneX);
                 drone.move();
+                moveAirplanes();
+            }
+        }, 0, 15);
+    }
+
+    private void startGameTimer() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
                 gameTime--;
-                if (gameTime < 1) endGame();
+                if (gameTime < 1) roundEnd();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
             }
         }, 0, 1000);
     }
 
     /*
-    Creates array of airplane with size of totalScore (number of airplanes)
+    Starts the movement of airplanes onto gameWindow
      */
     private void spawnAirplanes() {
-        airplanes = new Airplane[scoreboard.getTotalScore()];
-        for (int i = 0; i < scoreboard.getTotalScore(); i++) {
-            airplanes[i] = new Airplane();
-        }
+        gameWindow.add(airplanes[0]);
+    }
+
+    private void moveAirplanes() {
+        for (int i = 0; i < airplanes.length; i++) airplanes[i].moveLeft(scalar);
     }
 }
