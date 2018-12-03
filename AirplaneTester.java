@@ -7,7 +7,7 @@ public class AirplaneTester {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Airplane airplane = new Airplane();
-        frame.add(airplane);
+        frame.getContentPane().add(airplane);
         frame.setSize(800,800);
         frame.setVisible(true);
         Timer timer = new Timer();

@@ -14,10 +14,7 @@ public class DroneGame extends JPanel {
     private Drone drone;
     private JFrame gameWindow;
     private JLabel timeLabel;
-    int droneX = 266;
-    int droneY = 90;
     BufferedImage background_img;
-    BufferedImage drone_img;
 
     /*
     DroneGame
@@ -29,24 +26,27 @@ public class DroneGame extends JPanel {
         timer = new Timer();
         gameTime = 90;
         scoreboard = new Scoreboard();
-        drone = new Drone();
         gameWindow = new JFrame("Drone Project");
         timeLabel = new JLabel("Time: " + convertTime(gameTime), SwingConstants.CENTER);
         // Creates game window
         gameWindow.setSize(852, 480); // Set to match background resolution. Need to find a way to scale background_img with frame
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.setLayout(new BorderLayout());
+
+        // Initialize background image
+        try {
+            background_img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
+            gameWindow.setContentPane(new BackgroundImage(background_img));
+        } catch (IOException e) {
+            System.out.println("Error reading background image");
+        }
+
         // Initialize scoreboard, Drone, Airplanes, Collisions...
+        drone = new Drone();
         scoreboard.setTotalScore(5);
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
-        
-        try {
-            background_img = ImageIO.read(getClass().getResource("/resources/images/cloudybg.jpg"));
-            gameWindow.add(new JLabel(new ImageIcon(background_img)));
-            drone_img = ImageIO.read(getClass().getResource("/resources/images/dronepic.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        gameWindow.add(drone);
     }
 
     /*
@@ -143,11 +143,11 @@ public class DroneGame extends JPanel {
             @Override
             public void run() {
                     
-                Graphics g = background_img.getGraphics();
-                g.drawImage(drone_img, droneX, droneY, null);
-                repaint();
-                droneX += 10;
-                System.out.println("Drone X: " + droneX);
+//                Graphics g = background_img.getGraphics();
+//                g.drawImage(drone_img, droneX, droneY, null);
+//                repaint();
+//                droneX += 10;
+//                System.out.println("Drone X: " + droneX);
                 
                 gameTime--;
                 if (gameTime < 1) endGame();
