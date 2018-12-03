@@ -148,7 +148,7 @@ public class DroneGame extends JPanel {
 //                repaint();
 //                droneX += 10;
 //                System.out.println("Drone X: " + droneX);
-                
+                drone.move();
                 gameTime--;
                 if (gameTime < 1) endGame();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
