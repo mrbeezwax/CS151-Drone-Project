@@ -6,8 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
+import java.awt.event.*;
 
-public class DroneGame extends JPanel {
+public class DroneGame extends JPanel implements KeyListener {
     private Airplane[] airplanes;
     private int gameTime;
     private Timer timer;
@@ -25,6 +26,7 @@ public class DroneGame extends JPanel {
      */
     public DroneGame() {
         timer = new Timer();
+        addKeyListener(this);
         gameTime = 90;
         scalar = 1;
         scoreboard = new Scoreboard();
@@ -59,7 +61,7 @@ public class DroneGame extends JPanel {
      */
     public void startGame() {
         gameWindow.setVisible(true);
-
+        
         spawnAirplanes();
         startStopwatch();
         startGameTimer();
@@ -176,7 +178,7 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                drone.move();
+                //drone.move();
                 moveAirplanes();
             }
         }, 0, 15);
@@ -196,11 +198,75 @@ public class DroneGame extends JPanel {
     /*
     Starts the movement of airplanes onto gameWindow
      */
-    private void spawnAirplanes() {
-        gameWindow.add(airplanes[0]);
+        private void spawnAirplanes() {
+            gameWindow.add(airplanes[0]);
+        }
+
+        private void moveAirplanes() {
+            for (int i = 0; i < airplanes.length; i++) airplanes[i].moveLeft(scalar);
+        }
+        
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            drone.dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            drone.dx = 2;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            drone.dy = -2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            drone.dy = 2;
+        }
     }
 
-    private void moveAirplanes() {
-        for (int i = 0; i < airplanes.length; i++) airplanes[i].moveLeft(scalar);
+    public void keyReleased(KeyEvent e) {
+        
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            drone.dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            drone.dx = 2;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            drone.dy = -2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            drone.dy = 2;
+        }
     }
+    
+    public void keyTyped(KeyEvent e) {
+        
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            drone.dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            drone.dx = 2;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            drone.dy = -2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            drone.dy = 2;
+        }
+    }
+        
 }

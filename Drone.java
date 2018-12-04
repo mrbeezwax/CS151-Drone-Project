@@ -4,12 +4,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Drone extends JLabel {
+public class Drone extends JLabel implements KeyListener{
     private int x = 0;
     private int y = 150;
-    //int dx = 0;
-    //int dy = 0;
+    int dx = 0;
+    int dy = 0;
     private BufferedImage drone_img;
 
     public Drone() {
@@ -21,9 +22,9 @@ public class Drone extends JLabel {
     }
     
     public void move(){
-        //x += dx;
-        //y += dy;
-        x += 1;
+        x += dx;
+        y += dy;
+        //x += 1;
         repaint();
     }
 
@@ -34,8 +35,7 @@ public class Drone extends JLabel {
         g2.drawImage(drone_img, x, y, null);
     }
     
-    /*
-    public void keyPressed(KeyEvent e) {
+     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
 
@@ -45,7 +45,6 @@ public class Drone extends JLabel {
 
         if (key == KeyEvent.VK_RIGHT) {
             dx = 2;
-            System.out.println("right");
         }
 
         if (key == KeyEvent.VK_UP) {
@@ -56,5 +55,47 @@ public class Drone extends JLabel {
             dy = 2;
         }
     }
-    */
+
+    public void keyReleased(KeyEvent e) {
+        
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 2;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = 2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 2;
+        }
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 2;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = -2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 2;
+        }
+    }
+    
 }
