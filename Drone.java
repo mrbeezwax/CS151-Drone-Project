@@ -26,14 +26,14 @@ public class Drone extends JLabel {
         if(x < -10) {
             x = -10;
         }
-        if(x > 350) {
-            x = 350;
+        if(x > 600) {
+            x = 600;
         }
         if(y < -20) {
             y = -20;
         }
-        if(y > 180) {
-            y = 180;
+        if(y > 270) {
+            y = 270;
         }
         repaint(); //330 and 650
     }
