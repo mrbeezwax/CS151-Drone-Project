@@ -1,58 +1,60 @@
-
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.awt.event.KeyEvent;
 
-public class Drone extends JFrame implements KeyListener{
+public class Drone extends JLabel {
+    private int x = 0;
+    private int y = 150;
+    //int dx = 0;
+    //int dy = 0;
+    private BufferedImage drone_img;
 
-	private MoveableShape shape;
-	private ShapeIcon icon;
-	private double x = 0;
-	private double y = 0;
-	private String picture = "C:\\Users\\Thomas Wang\\Desktop\\DroneProjectWorkspace\\DroneProject\\Drone Picture.png";
-	
-	public Drone() {
-		addKeyListener(this);
-		ImageIcon icon = new ImageIcon(picture);
-		Image img = icon.getImage();
-		Image newImg = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon newIcon = new ImageIcon(newImg);
-		JLabel label = new JLabel(newIcon);
-		add(label);
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-	
-	}
+    public Drone() {
+        try {
+            drone_img = ImageIO.read(getClass().getResource("resources/images/resized_drone.png"));
+        } catch (IOException e) {
+            System.out.println("Error reading drone image");
+        }
+    }
+    
+    public void move(){
+        //x += dx;
+        //y += dy;
+        x += 1;
+        repaint();
+    }
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-		if(code == KeyEvent.VK_UP) {
-			shape.up();
-		}
-		if(code == KeyEvent.VK_DOWN) {
-			shape.down();
-			
-		}
-		repaint();
-	}
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage(drone_img, x, y, null);
+    }
+    
+    /*
+    public void keyPressed(KeyEvent e) {
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
+        int key = e.getKeyCode();
 
-	@Override
-	public void keyTyped(KeyEvent e) {
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -2;
+        }
 
-	}
-	
-	public static void main(String[] args) {
-		Drone frame = new Drone();
-		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-		frame.setSize(800, 800);
-		frame.setVisible(true);
-	}
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 2;
+            System.out.println("right");
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = -2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 2;
+        }
+    }
+    */
 }
