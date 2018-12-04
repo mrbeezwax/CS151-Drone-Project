@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 import java.awt.event.*;
+import java.awt.Shape;
+import java.awt.geom.Area;
 
 public class DroneGame extends JPanel {
     private Airplane[] airplanes;
@@ -206,5 +208,14 @@ public class DroneGame extends JPanel {
             for (int i = 0; i < airplanes.length; i++) airplanes[i].moveLeft(scalar);
         }
  
+    private void checkIfCollision() {
+        Rectangle d = new Rectangle(drone.getX(), drone.getY(), drone.getX() + 150, drone.getY() + 150);
+        for (int i = 0; i < airplanes.length; i++){
+            Rectangle p = new Rectangle(airplanes[i].getX(), airplanes[i].getY(), airplanes[i].getX() + 150, airplanes[i].getY() + 150);
+            if(d.intersects(p)){
+                System.out.println("collide");
+            }
+        }
+    }
         
 }

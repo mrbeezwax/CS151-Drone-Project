@@ -39,6 +39,14 @@ public class Airplane extends JLabel {
     public void setDestroyed() {
         isDestroyed = true;
     }
+    
+    public int getX(){
+        return x;
+    }
+    
+    public int getY(){
+        return y;
+    }
 
 //    public static void main(String[] args) {
 //        JFrame testFrame = new JFrame();

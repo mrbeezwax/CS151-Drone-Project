@@ -23,10 +23,29 @@ public class Drone extends JLabel implements KeyListener{
     }
     
     public void move(){
-        x += dx;
-        y += dy;
-        //x += 1;
-        repaint();
+            x += dx;
+            y += dy;
+            if(x < -10){
+                x = -10;
+            }
+            if(x > 350){
+                x = 350;
+            }
+            if(y < -20){
+                y = -20;
+            }
+            if(y > 180){
+                y = 180;
+            }
+        repaint(); //330 and 650
+    }
+    
+    public int getX(){
+        return x;
+    }
+    
+    public int getY(){
+        return y;
     }
 
     @Override
