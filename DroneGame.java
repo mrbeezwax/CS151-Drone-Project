@@ -54,6 +54,7 @@ public class DroneGame extends JPanel implements KeyListener {
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
         gameWindow.add(drone);
+        drone.setFocusable(true);
     }
 
     /*
@@ -178,7 +179,7 @@ public class DroneGame extends JPanel implements KeyListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                //drone.move();
+                drone.move();
                 moveAirplanes();
             }
         }, 0, 15);
@@ -209,7 +210,8 @@ public class DroneGame extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
-
+        System.out.println("...");
+        
         if (key == KeyEvent.VK_LEFT) {
             drone.dx = -2;
         }
@@ -230,7 +232,8 @@ public class DroneGame extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {
         
         int key = e.getKeyCode();
-
+        System.out.println("...");
+        
         if (key == KeyEvent.VK_LEFT) {
             drone.dx = -2;
         }
@@ -251,7 +254,8 @@ public class DroneGame extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
         
         int key = e.getKeyCode();
-
+        System.out.println("...");
+        
         if (key == KeyEvent.VK_LEFT) {
             drone.dx = -2;
         }

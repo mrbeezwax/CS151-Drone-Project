@@ -14,6 +14,7 @@ public class Drone extends JLabel implements KeyListener{
     private BufferedImage drone_img;
 
     public Drone() {
+        addKeyListener(this);
         try {
             drone_img = ImageIO.read(getClass().getResource("resources/images/resized_drone.png"));
         } catch (IOException e) {
@@ -38,7 +39,8 @@ public class Drone extends JLabel implements KeyListener{
      public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
-
+        System.out.println("...");
+        
         if (key == KeyEvent.VK_LEFT) {
             dx = -2;
         }
@@ -59,7 +61,8 @@ public class Drone extends JLabel implements KeyListener{
     public void keyReleased(KeyEvent e) {
         
         int key = e.getKeyCode();
-
+        System.out.println("...");
+        
         if (key == KeyEvent.VK_LEFT) {
             dx = -2;
         }
@@ -80,7 +83,8 @@ public class Drone extends JLabel implements KeyListener{
     public void keyTyped(KeyEvent e) {
         
         int key = e.getKeyCode();
-
+        System.out.println("...");
+            
         if (key == KeyEvent.VK_LEFT) {
             dx = -2;
         }
