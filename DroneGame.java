@@ -1,14 +1,24 @@
 import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.Timer;
+import java.awt.event.*;
+import java.awt.Shape;
+import java.awt.geom.Area;
 
 public class DroneGame extends JPanel {
-    private Airplane[] airplanes;
+    //private Airplane[] airplanes;
+	public static final int airplaneCount = 5;
+    private List<Airplane> airplanes = new ArrayList<Airplane>(5);
     private int gameTime;
     private Timer timer;
     private Scoreboard scoreboard;
@@ -16,6 +26,8 @@ public class DroneGame extends JPanel {
     private JFrame gameWindow;
     private JLabel timeLabel;
     private int scalar;
+    private Random myrand = new Random();
+    
 
     /*
     DroneGame
@@ -34,7 +46,7 @@ public class DroneGame extends JPanel {
         gameWindow.setSize(852, 500); // Set to match background resolution. Need to find a way to scale background_img with frame
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setLayout(new BorderLayout());
-        gameWindow.setResizable(false);
+        //gameWindow.setResizable(false);
 
         // Initialize background image
         try {
@@ -47,11 +59,18 @@ public class DroneGame extends JPanel {
         // Initialize scoreboard, Drone, Airplanes, Collisions...
         drone = new Drone();
         scoreboard.setTotalScore(5);
-        airplanes = new Airplane[5];
-        for (int i = 0; i < airplanes.length; i++) airplanes[i] = new Airplane();
+        
+        for(int i = 0; i < 5; i++) {
+        	airplanes.add(new Airplane(myrand.nextInt(330)));
+        }
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
         gameWindow.add(drone);
+        drone.setFocusable(true);
+    }
+    
+    public void addAirplane(Airplane a) {
+    	airplanes.add(a);
     }
 
     /*
@@ -59,7 +78,7 @@ public class DroneGame extends JPanel {
      */
     public void startGame() {
         gameWindow.setVisible(true);
-
+        
         spawnAirplanes();
         startStopwatch();
         startGameTimer();
@@ -176,6 +195,7 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                checkIfCollision();
                 drone.move();
                 moveAirplanes();
             }
@@ -186,21 +206,32 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                checkIfCollision();
                 gameTime--;
                 if (gameTime < 1) roundEnd();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
-            }
-        }, 0, 1000);
-    }
+			}
+		}, 0, 1000);
+	}
 
-    /*
-    Starts the movement of airplanes onto gameWindow
-     */
-    private void spawnAirplanes() {
-        gameWindow.add(airplanes[0]);
-    }
+	/*
+	 * Starts the movement of airplanes onto gameWindow
+	 */
+	public void spawnAirplanes() {
+		Iterator<Airplane> iterator = airplanes.iterator();
+		
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				gameWindow.add(iterator.next());
+			}
+		}, 0, 2000);
+	}
 
-    private void moveAirplanes() {
-        for (int i = 0; i < airplanes.length; i++) airplanes[i].moveLeft(scalar);
-    }
+	private void moveAirplanes() {
+		for(Airplane a : airplanes) {
+			a.moveLeft(scalar);
+		}
+	}
+
 }
