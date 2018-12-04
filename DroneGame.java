@@ -5,8 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.TimerTask;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.Timer;
 
@@ -259,8 +258,8 @@ public class DroneGame extends JPanel implements KeyListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                checkIfCollision();
                 drone.move();
+                checkIfCollision();
                 checkIfOutOfBounds();
                 moveAirplanes();
             }
@@ -306,9 +305,6 @@ public class DroneGame extends JPanel implements KeyListener {
     }
 
     private void checkIfOutOfBounds() {
-//        for (Airplane a : airplanes) {
-//            if (a.getX() < 0) remove(a);
-//        }
         if (airplanes.get(0).getX() < -75) {
             remove(airplanes.get(0));
             airplanes.remove(0);
