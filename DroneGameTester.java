@@ -12,10 +12,11 @@ public class DroneGameTester {
     public static void main(String[] args) {
         game = new DroneGame();
         menuWindow = new JFrame();
-        menuWindow.setSize(500, 300);
+        menuWindow.setSize(300, 300);
+        menuWindow.setResizable(false);
         menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuWindow.setLayout(new BorderLayout());
-        JLabel title = new JLabel("Drone Project", SwingConstants.CENTER);
+        menuWindow.setContentPane(new TitleBackgroundImage(300,300));
         JPanel buttonPanel = new JPanel();
         JButton playButton = new JButton("Play Game");
         playButton.addActionListener(event -> {
@@ -27,9 +28,8 @@ public class DroneGameTester {
             game.setConfigurations();
         });
         buttonPanel.add(playButton);
-        buttonPanel.add(Box.createHorizontalStrut(100));
+        buttonPanel.add(Box.createHorizontalStrut(10));
         buttonPanel.add(configurationButton);
-        menuWindow.add(title);
         menuWindow.add(buttonPanel, BorderLayout.SOUTH);
         menuWindow.setLocationRelativeTo(null);
         menuWindow.setVisible(true);
