@@ -15,6 +15,7 @@ public class Drone extends JLabel {
     public Drone() {
         try {
             drone_img = ImageIO.read(getClass().getResource("resources/images/resized_drone.png"));
+            setIcon(new ImageIcon(drone_img));
         } catch (IOException e) {
             System.out.println("Error reading drone image");
         }
@@ -23,13 +24,13 @@ public class Drone extends JLabel {
     public void move() {
         x += dx;
         y += dy;
-        if(x < -10) {
+        if (x < -10) {
             x = -10;
         }
         if(x > 600) {
             x = 600;
         }
-        if(y < -20) {
+        if (y < -20) {
             y = -20;
         }
         if(y > 270) {

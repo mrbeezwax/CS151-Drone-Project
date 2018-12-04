@@ -30,7 +30,7 @@ public class DroneGame extends JPanel implements KeyListener {
      */
     public DroneGame() {
         timer = new Timer();
-        gameTime = 5;
+        gameTime = 90;
         scalar = 1;
         planeSpeed = 1;
         scoreboard = new Scoreboard();
@@ -132,7 +132,10 @@ public class DroneGame extends JPanel implements KeyListener {
     private String convertTime(int time) {
         int minutes = time / 60;
         int seconds = time % 60;
-        return minutes + ":" + seconds;
+        String secondsString;
+        if (seconds < 10) secondsString = "0"+seconds;
+        else secondsString = ""+seconds;
+        return minutes + ":" + secondsString;
     }
 
     /*
