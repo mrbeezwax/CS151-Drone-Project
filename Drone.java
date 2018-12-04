@@ -39,7 +39,6 @@ public class Drone extends JLabel implements KeyListener{
      public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
-        System.out.println("...");
         
         if (key == KeyEvent.VK_LEFT) {
             dx = -2;
@@ -61,45 +60,26 @@ public class Drone extends JLabel implements KeyListener{
     public void keyReleased(KeyEvent e) {
         
         int key = e.getKeyCode();
-        System.out.println("...");
         
         if (key == KeyEvent.VK_LEFT) {
-            dx = -2;
+            dx = 0;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 2;
+            dx = 0;
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = 2;
+            dy = 0;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 2;
+            dy = 0;
         }
     }
     
     public void keyTyped(KeyEvent e) {
-        
-        int key = e.getKeyCode();
-        System.out.println("...");
-            
-        if (key == KeyEvent.VK_LEFT) {
-            dx = -2;
-        }
 
-        if (key == KeyEvent.VK_RIGHT) {
-            dx = 2;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            dy = -2;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            dy = 2;
-        }
     }
     
 }

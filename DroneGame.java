@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import java.util.Timer;
 import java.awt.event.*;
 
-public class DroneGame extends JPanel implements KeyListener {
+public class DroneGame extends JPanel {
     private Airplane[] airplanes;
     private int gameTime;
     private Timer timer;
@@ -26,7 +26,6 @@ public class DroneGame extends JPanel implements KeyListener {
      */
     public DroneGame() {
         timer = new Timer();
-        addKeyListener(this);
         gameTime = 90;
         scalar = 1;
         scoreboard = new Scoreboard();
@@ -206,71 +205,6 @@ public class DroneGame extends JPanel implements KeyListener {
         private void moveAirplanes() {
             for (int i = 0; i < airplanes.length; i++) airplanes[i].moveLeft(scalar);
         }
-        
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-        System.out.println("...");
-        
-        if (key == KeyEvent.VK_LEFT) {
-            drone.dx = -2;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            drone.dx = 2;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            drone.dy = -2;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            drone.dy = 2;
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-        
-        int key = e.getKeyCode();
-        System.out.println("...");
-        
-        if (key == KeyEvent.VK_LEFT) {
-            drone.dx = -2;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            drone.dx = 2;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            drone.dy = -2;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            drone.dy = 2;
-        }
-    }
-    
-    public void keyTyped(KeyEvent e) {
-        
-        int key = e.getKeyCode();
-        System.out.println("...");
-        
-        if (key == KeyEvent.VK_LEFT) {
-            drone.dx = -2;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            drone.dx = 2;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            drone.dy = -2;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            drone.dy = 2;
-        }
-    }
+ 
         
 }
