@@ -25,7 +25,7 @@ public class Airplane extends JLabel {
         x += new Random().nextInt(300);  // X is randomly generated so each Airplane arrives at different intervals
     }
 
-    public void moveLeft(int scalar) {
+    public void moveLeft(int scalar) {       
         x -= 1 + scalar;
         repaint();
     }

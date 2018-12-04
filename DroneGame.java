@@ -50,7 +50,7 @@ public class DroneGame extends JPanel {
         // Initialize scoreboard, Drone, Airplanes, Collisions...
         drone = new Drone();
         scoreboard.setTotalScore(5);
-        airplanes = new Airplane[5];
+        airplanes = new Airplane[1];
         for (int i = 0; i < airplanes.length; i++) airplanes[i] = new Airplane();
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
@@ -180,6 +180,7 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                checkIfCollision();
                 drone.move();
                 moveAirplanes();
             }
@@ -190,6 +191,7 @@ public class DroneGame extends JPanel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                checkIfCollision();
                 gameTime--;
                 if (gameTime < 1) roundEnd();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
@@ -209,11 +211,13 @@ public class DroneGame extends JPanel {
         }
  
     private void checkIfCollision() {
-        Rectangle d = new Rectangle(drone.getX(), drone.getY(), drone.getX() + 150, drone.getY() + 150);
+        Rectangle d = new Rectangle(drone.getX() + 25, drone.getY() + 52, 125, 40);
         for (int i = 0; i < airplanes.length; i++){
-            Rectangle p = new Rectangle(airplanes[i].getX(), airplanes[i].getY(), airplanes[i].getX() + 150, airplanes[i].getY() + 150);
+            Rectangle p = new Rectangle(airplanes[i].getX() + 100, airplanes[i].getY() + 65, 5 , 28);
             if(d.intersects(p)){
                 System.out.println("collide");
+                System.out.println(drone.getX() + 25 + " to " + (drone.getX() + 125));
+                System.out.println((airplanes[i].getX() + 100) + " to " + (airplanes[i].getX() + 105 ));
             }
         }
     }

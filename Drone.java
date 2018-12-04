@@ -37,7 +37,7 @@ public class Drone extends JLabel implements KeyListener{
             if(y > 180){
                 y = 180;
             }
-        repaint(); //330 and 650
+        repaint(); 
     }
     
     public int getX(){
