@@ -274,7 +274,6 @@ public class DroneGame extends JPanel implements KeyListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                checkIfCollision();
                 gameTime--;
                 if (gameTime < 1) roundEnd();
                 else timeLabel.setText("Time: " + convertTime(gameTime));
