@@ -4,9 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Drone extends JLabel implements KeyListener {
+public class Drone extends JLabel {
     private int x = 0;
     private int y = 150;
     private int dx = 0;
@@ -14,7 +13,6 @@ public class Drone extends JLabel implements KeyListener {
     private BufferedImage drone_img;
 
     public Drone() {
-        addKeyListener(this);
         try {
             drone_img = ImageIO.read(getClass().getResource("resources/images/resized_drone.png"));
         } catch (IOException e) {
@@ -46,6 +44,12 @@ public class Drone extends JLabel implements KeyListener {
     
     public int getY() {
         return y;
+    }
+
+    public void resetPosition() {
+        x = 0;
+        y = 150;
+        repaint();
     }
 
     @Override
@@ -96,9 +100,4 @@ public class Drone extends JLabel implements KeyListener {
             dy = 0;
         }
     }
-    
-    public void keyTyped(KeyEvent e) {
-
-    }
-    
 }

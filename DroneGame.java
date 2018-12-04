@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.TimerTask;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-public class DroneGame extends JPanel {
+public class DroneGame extends JPanel implements KeyListener {
     private List<Airplane> airplanes;
     private int gameTime;
     private Timer timer;
@@ -18,6 +20,7 @@ public class DroneGame extends JPanel {
     private JLabel timeLabel;
     private int scalar;
     private int planeSpeed;
+    private boolean paused;
 
     /*
     DroneGame
@@ -27,7 +30,7 @@ public class DroneGame extends JPanel {
      */
     public DroneGame() {
         timer = new Timer();
-        gameTime = 90;
+        gameTime = 5;
         scalar = 1;
         planeSpeed = 1;
         scoreboard = new Scoreboard();
@@ -41,6 +44,8 @@ public class DroneGame extends JPanel {
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setLayout(new BorderLayout());
         gameWindow.setResizable(false);
+        gameWindow.addKeyListener(this);
+        gameWindow.setFocusable(true);
 
         // Initialize background image
         try {
@@ -56,68 +61,6 @@ public class DroneGame extends JPanel {
         gameWindow.add(scoreboard, BorderLayout.SOUTH);
         gameWindow.add(timeLabel, BorderLayout.NORTH);
         gameWindow.add(drone);
-        drone.setFocusable(true);
-    }
-
-    /*
-    Starts the game - Spawns airplanes, starts stopwatch
-     */
-    public void startGame() {
-        gameWindow.setVisible(true);
-        String mode = planeSpeed == 1 ? "Easy" : "Hard";
-        System.out.println("Game started in " + mode + " mode");
-        spawnAirplanes();
-        startStopwatch();
-        startGameTimer();
-        // Collision Event
-
-    }
-
-    /*
-    Converts gametime from ms to minutes and seconds
-     */
-    private String convertTime(int time) {
-        int minutes = time / 60;
-        int seconds = time % 60;
-        return minutes + ":" + seconds;
-    }
-
-    /*
-    Runs when player clicks next level at round end
-    Initiates the next round with more and slightly faster airplanes. Scales with difficulty
-     */
-    private void nextLevel() {
-        planeSpeed += scalar;
-    }
-
-    /*
-    Listens for key press and opens a pause panel in game window
-    Three buttons: Resume and Quit
-     */
-    private void openPauseMenu() {
-        //TBD
-    }
-
-    /*
-    Runs when player reaches the end of the round
-    Displays score and a button to initiate the next level or to quit
-    If next level button clicked, run nextLevel()
-    If quit button clicked, run quitGame()
-     */
-    private void roundEnd() {
-        timer.cancel();
-        // Add Pop-up to Continue or Quit
-    }
-
-    /*
-    Runs when user clicks Quit in the pause menu or next round menu
-    Brings user back to the menu window
-    Should reset game variables
-     */
-    private void quitGame() {
-        // TBD
-        gameWindow.setVisible(false);
-        DroneGameTester.restartGame();
     }
 
     /*
@@ -171,6 +114,142 @@ public class DroneGame extends JPanel {
     }
 
     /*
+    Starts the game - Spawns airplanes, starts stopwatch
+     */
+    public void startGame() {
+        gameWindow.setLocationRelativeTo(null);
+        gameWindow.setVisible(true);
+        paused = false;
+
+        spawnAirplanes();
+        startStopwatch();
+        startGameTimer();
+    }
+
+    /*
+    Converts gametime from ms to minutes and seconds
+     */
+    private String convertTime(int time) {
+        int minutes = time / 60;
+        int seconds = time % 60;
+        return minutes + ":" + seconds;
+    }
+
+    /*
+    Runs when player clicks next level at round end
+    Initiates the next round with more and slightly faster airplanes. Scales with difficulty
+     */
+    private void nextRound() {
+        timer = new Timer();
+        planeSpeed += scalar;
+        gameTime = 90;
+        System.out.println("New Round");
+        startGame();
+    }
+
+    /*
+    Listens for key press and opens a pause panel in game window
+    Two Buttons: Resume and Quit
+     */
+    private void openPauseMenu() {
+        if (paused) return;
+        System.out.println("Pause Menu Opened");
+        gameWindow.setFocusable(false);
+        paused = true;
+        timer.cancel();
+        JFrame pauseFrame = new JFrame();
+        pauseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pauseFrame.setUndecorated(true);
+        pauseFrame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        pauseFrame.setVisible(true);
+        pauseFrame.setResizable(false);
+
+        JPanel buttonsPanel = new JPanel();
+        JButton resume = new JButton("Resume");
+        JButton quit = new JButton("Quit");
+        buttonsPanel.add(resume);
+        buttonsPanel.add(quit);
+        resume.addActionListener(event -> {
+            System.out.println("Resume");
+            pauseFrame.setVisible(false);
+            timer = new Timer();
+            paused = false;
+            gameWindow.setFocusable(true);
+            spawnAirplanes();
+            startStopwatch();
+            startGameTimer();
+        });
+        quit.addActionListener(event -> {
+            System.out.println("Quit");
+            pauseFrame.setVisible(false);
+            paused = false;
+            quitGame();
+        });
+
+        pauseFrame.add(buttonsPanel);
+        pauseFrame.pack();
+        pauseFrame.setLocationRelativeTo(null);
+    }
+
+    /*
+    Runs when player reaches the end of the round
+    Displays score and a button to initiate the next level or to quit
+    If continue button clicked, run nextLevel()
+    If quit button clicked, run quitGame()
+     */
+    private void roundEnd() {
+        timer.cancel();
+        timer.purge();
+        // Pop-Up Window
+        JFrame roundEndFrame = new JFrame();
+        roundEndFrame.setVisible(true);
+        roundEndFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        roundEndFrame.setResizable(false);
+
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.add(new JLabel("Total Score: " + scoreboard.getScore()));
+        textPanel.add(new JLabel("Would you like to continue?"));
+
+        JPanel buttonPanel = new JPanel();
+        JButton continueButton = new JButton("Continue");
+        continueButton.addActionListener(event -> {
+            for (Airplane a : airplanes) gameWindow.remove(a);
+            airplanes.clear();
+            drone.resetPosition();
+            roundEndFrame.setVisible(false);
+            nextRound();
+        });
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(event -> {
+            roundEndFrame.setVisible(false);
+            quitGame();
+        });
+
+        buttonPanel.add(continueButton);
+        buttonPanel.add(exitButton);
+        roundEndFrame.add(textPanel, BorderLayout.CENTER);
+        roundEndFrame.add(buttonPanel, BorderLayout.SOUTH);
+        roundEndFrame.pack();
+        roundEndFrame.setLocationRelativeTo(null);
+    }
+
+    public static void main(String[] args) {
+        DroneGame game = new DroneGame();
+        game.openPauseMenu();
+    }
+
+    /*
+    Runs when user clicks Quit in the pause menu or next round menu
+    Brings user back to the menu window
+    Should reset game variables
+     */
+    private void quitGame() {
+        gameWindow.setVisible(false);
+        DroneGameTester.restartGame();
+    }
+
+    /*
     A Timer that controls the movement of the drone and airplanes
      */
     private void startStopwatch() {
@@ -206,12 +285,11 @@ public class DroneGame extends JPanel {
     Every 2000ms or 2 sec, spawn a new airplane at a random y location
     x should always be the same
      */
-    public void spawnAirplanes() {
+    private void spawnAirplanes() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Airplane newPlane = new Airplane();
-                System.out.println("Plane Y: " + newPlane.getY());
                 airplanes.add(newPlane);
                 gameWindow.add(newPlane);
             }
@@ -232,8 +310,22 @@ public class DroneGame extends JPanel {
             remove(airplanes.get(0));
             airplanes.remove(0);
             scoreboard.addPoints(100 * scalar);
-            System.out.println("Airplane removed");
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() != 80) drone.keyPressed(e);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() != 80) drone.keyReleased(e);
+        else openPauseMenu();
     }
 
 //    private void checkIfCollision() {

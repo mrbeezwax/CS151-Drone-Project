@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
 /*
 Main Tester class
@@ -32,6 +31,7 @@ public class DroneGameTester {
         buttonPanel.add(configurationButton);
         menuWindow.add(title);
         menuWindow.add(buttonPanel, BorderLayout.SOUTH);
+        menuWindow.setLocationRelativeTo(null);
         menuWindow.setVisible(true);
     }
 
