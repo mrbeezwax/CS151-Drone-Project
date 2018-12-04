@@ -9,6 +9,7 @@ public class Airplane extends JLabel {
     private int x = 700; // 700+ is edge of the frame and farther
     private int y; // Range = [-20 to 270]. Anything lower or higher is cropped out of screen
     private BufferedImage airplane_img;
+    private boolean isDestroyed = false;
 
     public Airplane() {
         try {
@@ -26,9 +27,11 @@ public class Airplane extends JLabel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(airplane_img, x, y, null);
+        if(isDestroyed == false){
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.drawImage(airplane_img, x, y, null);
+        }
     }
     
     public int getX() {
@@ -37,5 +40,9 @@ public class Airplane extends JLabel {
     
     public int getY() {
         return y;
+    }
+    
+    public void setDestroyed(boolean isDestroyed) {
+        this.isDestroyed = isDestroyed;
     }
 }
