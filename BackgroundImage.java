@@ -4,8 +4,8 @@ import java.awt.*;
 public class BackgroundImage extends JPanel {
     private Image image;
 
-    public BackgroundImage(Image image) {
-        this.image = image;
+    public BackgroundImage(Image image, int width, int height) {
+        this.image = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
         setLayout(new BorderLayout());
     }
 

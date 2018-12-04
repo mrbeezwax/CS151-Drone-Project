@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Drone extends JLabel implements KeyListener{
+public class Drone extends JLabel implements KeyListener {
     private int x = 0;
     private int y = 150;
-    int dx = 0;
-    int dy = 0;
+    private int dx = 0;
+    private int dy = 0;
     private BufferedImage drone_img;
 
     public Drone() {
@@ -22,29 +22,29 @@ public class Drone extends JLabel implements KeyListener{
         }
     }
     
-    public void move(){
-            x += dx;
-            y += dy;
-            if(x < -10){
-                x = -10;
-            }
-            if(x > 350){
-                x = 350;
-            }
-            if(y < -20){
-                y = -20;
-            }
-            if(y > 180){
-                y = 180;
-            }
-        repaint(); 
+    public void move() {
+        x += dx;
+        y += dy;
+        if(x < -10) {
+            x = -10;
+        }
+        if(x > 350) {
+            x = 350;
+        }
+        if(y < -20) {
+            y = -20;
+        }
+        if(y > 180) {
+            y = 180;
+        }
+        repaint(); //330 and 650
     }
     
-    public int getX(){
+    public int getX() {
         return x;
     }
     
-    public int getY(){
+    public int getY() {
         return y;
     }
 

@@ -7,9 +7,12 @@ Main Tester class
 Use the main method to run the game/project
  */
 public class DroneGameTester {
+    private static JFrame menuWindow;
+    private static DroneGame game;
+
     public static void main(String[] args) {
-        DroneGame game = new DroneGame();
-        JFrame menuWindow = new JFrame();
+        game = new DroneGame();
+        menuWindow = new JFrame();
         menuWindow.setSize(500, 300);
         menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuWindow.setLayout(new BorderLayout());
@@ -30,5 +33,10 @@ public class DroneGameTester {
         menuWindow.add(title);
         menuWindow.add(buttonPanel, BorderLayout.SOUTH);
         menuWindow.setVisible(true);
+    }
+
+    public static void restartGame() {
+        menuWindow.setVisible(true);
+        game = new DroneGame();
     }
 }
