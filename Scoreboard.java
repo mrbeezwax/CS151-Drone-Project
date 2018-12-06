@@ -22,6 +22,14 @@ public class Scoreboard extends JLabel {
         setText("Score: " + score);
     }
 
+    /*
+    A helper method to deduct points from the score
+     */
+    public void removePoints(int points) {
+        score -= points;
+        setText("Score: " + score);
+    }
+
     public int getScore() {
         return score;
     }

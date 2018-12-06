@@ -327,13 +327,18 @@ public class DroneGame extends JPanel implements KeyListener {
     }
 
     private void checkIfCollision() {
+        if (drone.checkCollided()) return;
         Rectangle d = new Rectangle(drone.getX() + 50, drone.getY() + 52, 100, 35);
         for (int i = 0; i < airplanes.size(); i++){
             Rectangle p = new Rectangle(airplanes.get(i).getX() + 100, airplanes.get(i).getY() + 70, 1 , 5);
             if(d.intersects(p)){
+                System.out.println("Collided");
                 airplanes.get(i).setDestroyed(true);
                 airplanes.remove(i);
                 remove(airplanes.get(i));
+                scoreboard.removePoints(50 * scalar);
+                drone.collisionNotifier();
+                i--;
             }
         }
     }

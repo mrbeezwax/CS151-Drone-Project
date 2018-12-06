@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Drone extends JLabel {
     private int x = 0;
@@ -11,14 +13,18 @@ public class Drone extends JLabel {
     private int dx = 0;
     private int dy = 0;
     private BufferedImage drone_img;
+    private BufferedImage damaged_drone_img;
+    private boolean isCollided;
 
     public Drone() {
         try {
             drone_img = ImageIO.read(getClass().getResource("resources/images/resized_drone.png"));
+            damaged_drone_img = ImageIO.read(getClass().getResource("resources/images/damaged_drone.png"));
 //            setIcon(new ImageIcon(drone_img));
         } catch (IOException e) {
             System.out.println("Error reading drone image");
         }
+        isCollided = false;
     }
 
     public void move() {
@@ -57,7 +63,19 @@ public class Drone extends JLabel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(drone_img, x, y, null);
+        if (isCollided) g2.drawImage(damaged_drone_img, x, y, null);
+        else g2.drawImage(drone_img, x, y, null);
+    }
+
+    public void collisionNotifier() {
+        isCollided = true;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                isCollided = false;
+            }
+        }, 5000);
     }
     
      public void keyPressed(KeyEvent e) {
@@ -100,5 +118,9 @@ public class Drone extends JLabel {
         if (key == KeyEvent.VK_DOWN) {
             dy = 0;
         }
+    }
+
+    public boolean checkCollided() {
+        return isCollided;
     }
 }
