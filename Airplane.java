@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
-public class Airplane extends JLabel {
+class Airplane extends JLabel {
     private int x = 700; // 700+ is edge of the frame and farther
-    private int y; // Range = [-20 to 270]. Anything lower or higher is cropped out of screen
+    private final int y; // Range = [-20 to 270]. Anything lower or higher is cropped out of screen
     private BufferedImage airplane_img;
     private boolean isDestroyed = false;
 
@@ -27,7 +27,7 @@ public class Airplane extends JLabel {
     }
 
     public void paintComponent(Graphics g) {
-        if(isDestroyed == false){
+        if(!isDestroyed){
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g;
             g2.drawImage(airplane_img, x, y, null);

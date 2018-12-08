@@ -9,14 +9,14 @@ import java.util.*;
 import java.util.List;
 import java.util.Timer;
 
-public class DroneGame extends JPanel implements KeyListener {
-    private List<Airplane> airplanes;
+class DroneGame extends JPanel implements KeyListener {
+    private final List<Airplane> airplanes;
     private int gameTime;
     private Timer timer;
-    private Scoreboard scoreboard;
-    private Drone drone;
-    private JFrame gameWindow;
-    private JLabel timeLabel;
+    private final Scoreboard scoreboard;
+    private final Drone drone;
+    private final JFrame gameWindow;
+    private final JLabel timeLabel;
     private int scalar;
     private int planeSpeed;
     private boolean paused;
@@ -126,7 +126,7 @@ public class DroneGame extends JPanel implements KeyListener {
     }
 
     /*
-    Converts gametime from ms to minutes and seconds
+    Converts game time from ms to minutes and seconds
      */
     private String convertTime(int time) {
         int minutes = time / 60;

@@ -5,7 +5,7 @@ import java.awt.*;
 Main Tester class
 Use the main method to run the game/project
  */
-public class DroneGameTester {
+class DroneGameTester {
     private static JFrame menuWindow;
     private static DroneGame game;
 
@@ -24,9 +24,7 @@ public class DroneGameTester {
             game.startGame();
         });
         JButton configurationButton = new JButton("Configure");
-        configurationButton.addActionListener(event -> {
-            game.setConfigurations();
-        });
+        configurationButton.addActionListener(event -> game.setConfigurations());
         buttonPanel.add(playButton);
         buttonPanel.add(Box.createHorizontalStrut(10));
         buttonPanel.add(configurationButton);

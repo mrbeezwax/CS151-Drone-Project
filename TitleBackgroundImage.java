@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class TitleBackgroundImage extends JPanel {
+class TitleBackgroundImage extends JPanel {
     private Image image;
 
     public TitleBackgroundImage(int width, int height) {

@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Scoreboard extends JLabel {
+class Scoreboard extends JLabel {
     private int score;
 
     /*

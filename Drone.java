@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Drone extends JLabel {
+class Drone extends JLabel {
     private int x = 0;
     private int y = 150;
     private int dx = 0;
